@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-interface Coin {
+interface Cryptocurrency {
   id: string;
   name: string;
   symbol: string;
@@ -16,9 +16,8 @@ interface Coin {
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  constructor(private http: HttpClient) {}
-
-  coins: Coin[] = [];
+  cryptocurrencyes: Cryptocurrency[] = [];
+  filteredCcys: Cryptocurrency[] = [];
   titles: string[] = [
     '#',
     'cryptocurrency',
@@ -27,15 +26,34 @@ export class AppComponent implements OnInit {
     '24h Volume',
   ];
 
+  searchText: string = '';
+
+  constructor(private http: HttpClient) {}
+
+  searchCcy() {
+    console.log(this.searchText);
+    this.filteredCcys = this.cryptocurrencyes.filter((ccy) => {
+      return (
+        ccy.name
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLocaleLowerCase()) ||
+        ccy.symbol
+          .toLocaleLowerCase()
+          .includes(this.searchText.toLocaleLowerCase())
+      );
+    });
+  }
+
   ngOnInit(): void {
     this.http
-      .get<Coin[]>(
+      .get<Cryptocurrency[]>(
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
       )
       .subscribe({
         next: (res) => {
           console.log(res);
-          this.coins = res;
+          this.cryptocurrencyes = res;
+          this.filteredCcys = res;
         },
         error: (err) => console.log(err),
       });
