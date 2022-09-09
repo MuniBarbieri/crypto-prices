@@ -19,6 +19,13 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   coins: Coin[] = [];
+  titles: string[] = [
+    '#',
+    'cryptocurrency',
+    'Price',
+    'Price Change',
+    '24h Volume',
+  ];
 
   ngOnInit(): void {
     this.http
