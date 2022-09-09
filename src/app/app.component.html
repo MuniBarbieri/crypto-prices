@@ -9,15 +9,13 @@
     </thead>
     <tbody>
       <tr *ngFor="let coin of coins; let i = index">
-        <td>{{ i + 1 }}</td>
+        <td class="text-muted">{{ i + 1 }}</td>
         <td>
           <img [src]="coin.image" alt="{{ coin.name }}" style="width: 2rem" />
-          <span>{{ coin.name }}</span>
-          <span>{{ coin.symbol }}</span>
+          <span class="ms-3">{{ coin.name }}</span>
+          <span class="text-muted text-uppercase ms-2">{{ coin.symbol }}</span>
         </td>
-        <td>
-          {{ coin.current_price.toLocaleString() }}
-        </td>
+        <td>${{ coin.current_price.toLocaleString() }}</td>
         <td
           [ngClass]="
             coin.price_change_percentage_24h > 0
